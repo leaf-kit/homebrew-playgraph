@@ -4,18 +4,11 @@ class Playgraph < Formula
   version "0.1.0"
   license "MIT"
 
-  depends_on "rust" => :build
-  depends_on "node" => :build
-
-  url "https://github.com/leaf-kit/playgraph.md/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "8848f04b9a799baecf5675ba35bce5436af9de3ba1bb463900ec860ddaa8bd20"
+  url "https://github.com/leaf-kit/playgraph.md/releases/download/v0.1.0/playgraph-0.1.0-x86_64-darwin.tar.gz"
+  sha256 "afdb2bfb8c8e2f696d327f4c70cd8cf9d0c6180eb6aeace2fac8fa830b128a1b"
 
   def install
-    system "npm", "install"
-    cd "src-tauri" do
-      system "cargo", "build", "--release"
-      bin.install "target/release/playgraph"
-    end
+    bin.install "playgraph"
   end
 
   test do

@@ -1,17 +1,24 @@
 class Playgraph < Formula
   desc "Markdown-powered interactive animation viewer for math, physics, and more"
   homepage "https://github.com/leaf-kit/playgraph.md"
-  version "0.1.0"
+  url "https://github.com/leaf-kit/playgraph.md/archive/refs/tags/v0.2.0.tar.gz"
+  sha256 "c43cf03595bff62f2692c0219fb8fa62e3631828e67842ada7b22e7bc063defa"
   license "MIT"
+  version "0.2.0"
 
-  url "https://github.com/leaf-kit/playgraph.md/releases/download/v0.1.0/playgraph-0.1.0-x86_64-darwin.tar.gz"
-  sha256 "afdb2bfb8c8e2f696d327f4c70cd8cf9d0c6180eb6aeace2fac8fa830b128a1b"
+  depends_on "rust" => :build
+  depends_on "node" => :build
 
   def install
-    bin.install "playgraph"
+    system "npm", "install"
+    cd "src-tauri" do
+      system "cargo", "build", "--release"
+      bin.install "target/release/playgraph"
+    end
+    (share/"playgraph/library").install Dir["library/*"]
   end
 
   test do
-    assert_match "playgraph", shell_output("#{bin}/playgraph --version")
+    assert_match "playgraph", shell_output("#{bin}/playgraph --version", 1)
   end
 end
